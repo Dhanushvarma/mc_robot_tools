@@ -22,6 +22,16 @@ inline std::vector<std::string> listBotaSensor()
   return {};
 }
 
+/** CALL-M's wrist mount (empty if not installed). */
+inline std::vector<std::string> listCallMEefMount()
+{
+  // clang-format off
+  const bool WITH_CALLM_EEF_MOUNT_BOOL = @WITH_CALLM_EEF_MOUNT_BOOL@;
+  // clang-format on
+  if(WITH_CALLM_EEF_MOUNT_BOOL) return {"CallMEefMount"};
+  return {};
+}
+
 inline std::vector<std::string> listDS4()
 {
   // clang-format off

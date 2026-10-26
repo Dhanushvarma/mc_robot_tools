@@ -44,6 +44,7 @@ sudo make install
 |**Tool Module**|**Dependency**|
 |---|---|
 |**bota_sensor**|[bota_driver_ros2](https://gitlab.com/botasys/drivers/bota_driver_ros2)|
+|**callm_eef_mount**|None|
 |**ds4**|None|
 |**plate**|None|
 |**realsense_camera**|None|

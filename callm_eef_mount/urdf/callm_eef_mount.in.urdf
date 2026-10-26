@@ -1,0 +1,111 @@
+<?xml version="1.0"?>
+<!--
+  CALL-M's wrist mount on the UR5e flange: the adapter plate, the bar that carries the wrist RealSense D435i, and the
+  seat of the Robotiq 2F-85. Copied from callm.xml (Dhanushvarma/callm_wbc_ik, bodies eef_mount, eef_d435i and the
+  2f85 base). The base link is the UR flange (tool0): callm.xml's eef_mount sits 3 mm inside it, so every offset
+  below is callm.xml's minus 3 mm along z.
+-->
+<robot name="callm_eef_mount">
+  <!-- One collision shape per link: mc_rtc names a link's collision hulls <link>_0, <link>_1, ... when it has several,
+       and self-collision pairs name links -->
+  <link name="callm_eef_mount_base_link">
+    <!-- Masses as in callm.xml: plate 0.097 kg -->
+    <inertial>
+      <origin xyz="0.0 0.009 0.0" rpy="0 0 0"/>
+      <mass value="0.097"/>
+      <inertia ixx="6.9e-5" ixy="0.0" ixz="0.0" iyy="1.1e-4" iyz="0.0" izz="4.5e-5"/>
+    </inertial>
+    <visual>
+      <origin xyz="-0.0375 0.055 -0.006" rpy="1.5707963267948966 0 0"/>
+      <geometry>
+        <mesh filename="file://@MC_MESH_DIR@/adapter_plate.stl"/>
+      </geometry>
+      <material name="callm_eef_mount_bracket">
+        <color rgba="0.72 0.73 0.74 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.0375 0.055 -0.006" rpy="1.5707963267948966 0 0"/>
+      <geometry>
+        <mesh filename="file://@MC_MESH_DIR@/adapter_plate.stl"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- The bar that carries the camera, bar 0.022 kg -->
+  <link name="callm_eef_mount_bar_link">
+    <inertial>
+      <origin xyz="0.0 0.06 0.0" rpy="0 0 0"/>
+      <mass value="0.022"/>
+      <inertia ixx="1.7e-6" ixy="0.0" ixz="0.0" iyy="8.1e-6" iyz="0.0" izz="9.6e-6"/>
+    </inertial>
+    <visual>
+      <origin xyz="-0.033 0.075 -0.003" rpy="1.5707963267948966 0 0"/>
+      <geometry>
+        <mesh filename="file://@MC_MESH_DIR@/flat_extension.stl"/>
+      </geometry>
+      <material name="callm_eef_mount_bracket">
+        <color rgba="0.72 0.73 0.74 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.033 0.075 -0.003" rpy="1.5707963267948966 0 0"/>
+      <geometry>
+        <mesh filename="file://@MC_MESH_DIR@/flat_extension.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="callm_eef_mount_bar_joint" type="fixed">
+    <parent link="callm_eef_mount_base_link"/>
+    <child link="callm_eef_mount_bar_link"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <!-- The D435i (callm.xml's eef_d435i): front face at the origin, looking along +z, casing behind it. The casing is a
+       box of the size of callm.xml's casing mesh (d435i_8) -->
+  <link name="callm_eef_mount_camera_link">
+    <inertial>
+      <origin xyz="0 0 -0.0125" rpy="0 0 0"/>
+      <mass value="0.072"/>
+      <inertia ixx="7.5e-6" ixy="0.0" ixz="0.0" iyy="5.2e-5" iyz="0.0" izz="5.2e-5"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 -0.0125" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.09 0.025 0.025"/>
+      </geometry>
+      <material name="callm_eef_mount_camera">
+        <color rgba="0.1 0.1 0.1 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 -0.0125" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.09 0.025 0.025"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="callm_eef_mount_camera_joint" type="fixed">
+    <parent link="callm_eef_mount_base_link"/>
+    <child link="callm_eef_mount_camera_link"/>
+    <origin xyz="0 0.0685 0.028" rpy="0 0 0"/>
+  </joint>
+
+  <!-- callm.xml's camera "hand", in MuJoCo's camera convention: it looks along its -z, with +y up -->
+  <link name="callm_eef_mount_hand_camera"/>
+  <joint name="callm_eef_mount_hand_camera_joint" type="fixed">
+    <parent link="callm_eef_mount_camera_link"/>
+    <child link="callm_eef_mount_hand_camera"/>
+    <origin xyz="0 0 0" rpy="0 3.1415 0"/>
+  </joint>
+
+  <!-- Where robotiq_85_base_link of the Robotiq 2F-85 (mc_robot_tools robotiq_gripper) goes: callm.xml's 2f85 base
+       (3 mm out, turned 180 deg) plus the 10.8 mm by which that model's base sits below robotiq_85_base_link, turned
+       back by 180 deg -->
+  <link name="callm_eef_mount_gripper_link"/>
+  <joint name="callm_eef_mount_gripper_joint" type="fixed">
+    <parent link="callm_eef_mount_base_link"/>
+    <child link="callm_eef_mount_gripper_link"/>
+    <origin xyz="0 0 0.0138" rpy="0 0 0"/>
+  </joint>
+</robot>

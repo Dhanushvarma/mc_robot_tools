@@ -16,6 +16,7 @@ include(CTest)
 include(GNUInstallDirs)
 
 option(WITH_BOTA_SENSOR "Build bota_sensor module" OFF)
+option(WITH_CALLM_EEF_MOUNT "Build callm_eef_mount module" OFF)
 option(WITH_DS4 "Build ds4 module" OFF)
 option(WITH_PLATE "Build plate module" OFF)
 option(WITH_REALSENSE_CAMERA "Build realsense_camera module" OFF)
@@ -35,6 +36,7 @@ include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/mc_rtc_macros.cmake)
 foreach(
   opt
   BOTA_SENSOR
+  CALLM_EEF_MOUNT
   DS4
   PLATE
   REALSENSE_CAMERA
@@ -115,6 +117,10 @@ install(FILES "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
 # Subdirectory modules
 if(WITH_BOTA_SENSOR)
   add_subdirectory(bota_sensor)
+endif()
+
+if(WITH_CALLM_EEF_MOUNT)
+  add_subdirectory(callm_eef_mount)
 endif()
 
 if(WITH_DS4)

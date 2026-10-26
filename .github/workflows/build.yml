@@ -132,6 +132,7 @@ jobs:
           cmake .. \
             -DCMAKE_BUILD_TYPE=${{ matrix.build-type }} \
             -DWITH_BOTA_SENSOR=ON \
+            -DWITH_CALLM_EEF_MOUNT=ON \
             -DWITH_DS4=ON \
             -DWITH_PLATE=ON \
             -DWITH_REALSENSE_CAMERA=ON \
